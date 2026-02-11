@@ -1,0 +1,12 @@
+python-dotenv
+pydantic
+fastapi
+requests
+langchain-groq
+langchain-core
+gspread
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+uvicorn
+apscheduler
