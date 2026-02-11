@@ -9,7 +9,7 @@ def load_subscribers():
 
 
 def send_newsletter(subject, html_content):
-    subsribers = ["jainmokshejain2005@gmail.com"]
+    subsribers = load_subscribers()
     for email in subsribers:
         msg = MIMEMultipart("alternative")
         msg["From"] = SENDER_EMAIL
