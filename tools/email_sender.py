@@ -38,18 +38,30 @@ def send_welcome_email(recipient_email):
         server.sendmail(SENDER_EMAIL, recipient_email, msg.as_string())
 
 
-def send_newsletter(subject, html_content):
-    subsribers = load_subscribers()
-    for email in subsribers:
-        msg = MIMEMultipart("alternative")
-        msg["From"] = SENDER_EMAIL
-        msg["To"] = email
-        msg["Subject"] = subject
+def send_newsletter(subject_en, subject_hi, html_en, html_hi):
 
-        msg.attach(MIMEText(html_content, "html"))
+    subscribers = load_subscribers()
 
-        print("mail sent")
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(SENDER_EMAIL, EMAIL_PASSWORD)
 
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(SENDER_EMAIL, EMAIL_PASSWORD)
+        for user in subscribers:
+
+            email = user["email"].strip()
+            language = user["language"].strip().lower()
+
+            msg = MIMEMultipart("alternative")
+            msg["From"] = SENDER_EMAIL
+            msg["To"] = email
+
+            if language in ["hindi", "hi"]:
+                msg["Subject"] = subject_hi
+                msg.attach(MIMEText(html_hi, "html"))
+            else:
+                msg["Subject"] = subject_en
+                msg.attach(MIMEText(html_en, "html"))
+
             server.sendmail(SENDER_EMAIL, email, msg.as_string())
+            print(f"Sent to {email}")
+
+    print("All emails sent 🚀")

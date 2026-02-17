@@ -36,7 +36,6 @@ def add_subscriber(email):
 
 
 def get_all_subscribers():
-
     sheet = get_sheet()
-    emails = sheet.col_values(1)[1:]  # skip header
-    return emails
+    rows = sheet.get_all_records()  # skip header
+    return rows
